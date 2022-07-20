@@ -183,7 +183,7 @@ for i in range(n):
 -----------------------------------------------------------------
 
 
-diagonal in a square/rectangle :-->
+# diagonal in a square/rectangle :-->
 
 
 n = int(input("Enter a number: "))
