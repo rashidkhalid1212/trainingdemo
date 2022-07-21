@@ -21,7 +21,7 @@ sum = 0
 for i in mylist:
     for j in i:
         sum += j
-    nlist.append(sum)
+    nlist.append([sum])
     sum = 0
 
 print(nlist)
@@ -37,7 +37,7 @@ for i in lis:
 
 print(lis2)
 
-################################################################
+# ################################################################
 
 for i in range(1200, 3000):
     if i%4 ==0 and i%8 == 0 and i%6 != 0:
