@@ -54,6 +54,18 @@ def admin_w():
             op_4 = StringVar()
             ans_w = StringVar()
 
+            def next_q(a, b, c, d, e, f):
+                a = a.get()
+                b = b.get()
+                c = c.get()
+                d = d.get()
+                e = e.get()
+                f = f.get()
+                text_file = open("questionlist.txt", "a")
+                q = f"[{a}], [{b}], [{c}], [{d}], [{e}], [{f}], '|-|'\n"
+                text_file.write(q)
+
+
             ques1 = Label(
                 window_admin,
                 text=f'Write question {n+1}:'
@@ -84,7 +96,8 @@ def admin_w():
             ans_ent = Entry(window_admin, textvariable=ans_w)
             ans_ent.place(x = 220, y = 320)
 
-            nxt = Button(window_admin, text='Next', width=24)
+            
+            nxt = Button(window_admin, text='Next', width=24, command=lambda:next_q(ques1_ent, op1_ent, op2_ent, op3_ent, op4_ent, ans_ent))
             nxt.place(x = 600, y = 400)
         
         n = Label(
@@ -103,8 +116,8 @@ def admin_w():
         number_of_questions = 1
 
         for i in range(int(number_of_questions)):
-            add_question(i)
-            number_of_questions = n_entry
+            add_question(i) 
+            number_of_questions = n_entry.get()
 
 
     def del_q():
