@@ -18,7 +18,7 @@ def login():
 
     window_login = tkinter.Tk()
     window_login.title('Login Window')
-    window_login.geometry('300x200')
+    window_login.geometry('270x180')
 
     username = Label(window_login, text="Username: ")
     username.pack()
@@ -30,8 +30,8 @@ def login():
     entry_password = Entry(window_login, textvariable= password)
     entry_password.pack()
 
-    bt_login = Button(window_login, text='Log In', command=lambda:login_true(entry_username, entry_password))
-    bt_login.pack()
+    bt_login = Button(window_login, text='Log In',padx=10, pady=4, command=lambda:login_true(entry_username, entry_password))
+    bt_login.pack(pady= 20)
 
     window_login.mainloop()
 
@@ -41,7 +41,7 @@ def admin_w():
     window_admin = tkinter.Tk()
 
     window_admin.title("Admin")
-    window_admin.geometry("900x600")
+    window_admin.geometry("900x500")
 
     def add_q():
         no_ques = IntVar()
@@ -62,13 +62,36 @@ def admin_w():
                 e = e.get()
                 f = f.get()
                 text_file = open("questionlist.txt", "a")
-                q = f"[{a}], [{b}], [{c}], [{d}], [{e}], [{f}], '|-|'\n"
+                # q = f"[{a}], [{b}], [{c}], [{d}], [{e}], [{f}] |-|\n"
+                q = f"{a} |-| {b} |-| {c} |-| {d} |-| {e} |-| {f}\n"
                 text_file.write(q)
+
+                add_question(n + 1)
+
+            def done_q(a, b, c, d, e, f):
+                a = a.get()
+                b = b.get()
+                c = c.get()
+                d = d.get()
+                e = e.get()
+                f = f.get()
+                text_file = open("questionlist.txt", "a")
+                q = f"{a} |-| {b} |-| {c} |-| {d} |-| {e} |-| {f}\n"
+                text_file.write(q)
+
+                messagebox.showinfo("message", f"No. of questions added are {n}")
+
+                window_admin.destroy()
+                admin_w()
+
+                # done_l = Label(window_admin, text= f"No. of questions added are : {no}")
+                # done_l.place(x = 500, y = 200)
+
 
 
             ques1 = Label(
                 window_admin,
-                text=f'Write question {n+1}:'
+                text=f'Question {n}:'
             )
             ques1.place(x = 70, y = 130)
 
@@ -79,10 +102,10 @@ def admin_w():
             )
             ques1_ent.place(x = 70, y = 150)
 
-            op1 = Label(window_admin, text='option 1: a)').place(x = 80, y = 190)
-            op2 = Label(window_admin, text='option 2: b)').place(x = 80, y = 220)
-            op3 = Label(window_admin, text='option 3: c)').place(x = 80, y = 250)
-            op4 = Label(window_admin, text='option 4: d)').place(x = 80, y = 280)
+            op1 = Label(window_admin, text='Option 1:  a)').place(x = 80, y = 190)
+            op2 = Label(window_admin, text='Option 2:  b)').place(x = 80, y = 220)
+            op3 = Label(window_admin, text='Option 3:  c)').place(x = 80, y = 250)
+            op4 = Label(window_admin, text='Option 4:  d)').place(x = 80, y = 280)
             ans = Label(window_admin, text='Answer: ').place(x = 80, y = 320)
 
             op1_ent = Entry(window_admin, textvariable= op_1)
@@ -97,31 +120,31 @@ def admin_w():
             ans_ent.place(x = 220, y = 320)
 
             
-            nxt = Button(window_admin, text='Next', width=24, command=lambda:next_q(ques1_ent, op1_ent, op2_ent, op3_ent, op4_ent, ans_ent))
-            nxt.place(x = 600, y = 400)
+            nxt = Button(window_admin, text='Next', width=19, command=lambda:next_q(ques1_ent, op1_ent, op2_ent, op3_ent, op4_ent, ans_ent))
+            nxt.place(x = 500, y = 400)
+
+            done = Button(window_admin, text="Done", width=19, command=lambda:done_q(ques1_ent, op1_ent, op2_ent, op3_ent, op4_ent, ans_ent))
+            done.place(x = 660, y = 400)
+ 
         
         n = Label(
             window_admin,
-            text="No. of questions you want to add: "
+            text="*Note:- Just enter the question, its options and answer and, for the next questions click next and add the questions\n When all the questions are added click done",
+            font=('Comic Sans MS', '10')
         )
-        n.place(x = 50, y = 90)
+        n.place(x = 70, y = 70)
 
-        n_entry = Entry(
-            window_admin,
-            textvariable=no_ques
-        )
-        n_entry.place(x = 300, y = 90)
-
-        global number_of_questions
-        number_of_questions = 1
-
-        for i in range(int(number_of_questions)):
-            add_question(i) 
-            number_of_questions = n_entry.get()
+        add_question(1)
 
 
     def del_q():
-        pass
+        messagebox.askokcancel("Warning!!", "This will delete all the questions")
+        fl = open("questionlist.txt", 'w')
+        fl.write('')
+        fl.close()
+
+
+
     def edit_q():
         pass
 
