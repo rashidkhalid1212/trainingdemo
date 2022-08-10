@@ -249,8 +249,29 @@ def student_w():
     window_student = tkinter.Tk()
 
     window_student.title("Student")
-    window_student.geometry("1200x700")
+    window_student.geometry("1000x600")
+    window_student.config(bg='light green')
 
+    st_answer = IntVar()
+
+    text_st = Text(
+        window_student, 
+        height= 4,
+        width=80
+    )
+    text_st.place(x = 50, y = 70)
+    file_student = open('questionlist.txt', 'r')
+    txt_st = file_student.readline()
+    q = txt_st.split("|-|")
+
+    text_st.insert(1.0, q[0])
+
+    option1 = Radiobutton(window_student, text=q[1], variable= st_answer, value= 1).place(x = 60, y = 150)
+    option2 = Radiobutton(window_student, text=q[2], variable= st_answer, value= 2).place(x = 60, y = 180)
+    option3 = Radiobutton(window_student, text=q[3], variable= st_answer, value= 3).place(x = 60, y = 210)
+    option4 = Radiobutton(window_student, text=q[4], variable= st_answer, value= 4).place(x = 60, y = 240)
+
+    # text_st.config(state=DISABLED)
 
 
     window_student.mainloop()
