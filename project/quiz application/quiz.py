@@ -19,6 +19,7 @@ def login():
     window_login = tkinter.Tk()
     window_login.title('Login Window')
     window_login.geometry('270x180')
+    window_login.resizable(False, False)
 
     username = Label(window_login, text="Username: ")
     username.pack()
@@ -42,6 +43,7 @@ def admin_w():
 
     window_admin.title("Admin")
     window_admin.geometry("900x500")
+    window_admin.resizable(False, False)
     window_admin.config(bg = 'light blue')
 
     def add_q():
@@ -249,33 +251,100 @@ def student_w():
     window_student = tkinter.Tk()
 
     window_student.title("Student")
-    window_student.geometry("1000x600")
-    window_student.config(bg='light green')
+    window_student.geometry("800x500")
+    window_student.resizable(False, False)
+    # window_student.config(bg='light green')
 
-    st_answer = IntVar()
+    global right_answer
+    right_answer = 0
+    
+    def nxt_qu(n):
+        global option1, option2, option3, option4, stud_answer
+        st_answer = StringVar(window_student)
+        
+
+        def NEXT_Q(value):
+            selected_op = value
+            # if (selected_op == stud_answer):
+            for i in selected_op:
+                for j in stud_answer:
+                    if i==j:
+                        global right_answer 
+                        right_answer += 1
+
+            ans_l = Label(
+                window_student, 
+                text= f"The right answer is: {stud_answer}",
+                font=("Berlin Sans FB", '16')
+                )
+            ans_l.place(x = 70, y = 380)
+
+            next_ques = Button(window_student, text='Next question', width=22, command=lambda:nxt_qu(n + 1))
+            next_ques.place(x = 530, y = 320)
+
+
+        if n != 0:
+            text_st.delete("1.0", "end")
+            option1.destroy()
+            option2.destroy()
+            option3.destroy()
+            option4.destroy()
+
+
+        file_student = open('questionlist.txt', 'r')
+        txt_file_st = file_student.readlines()
+        z = txt_file_st
+        
+        try:
+            a = z[n]
+            q = a.split(" |-| ")
+            text_st.insert(1.0, q[0])
+            stud_answer = q[5]
+            option1 = Radiobutton(window_student, text=f'(a): {q[1]}', variable= st_answer, value= 'a',font=('Bell MT', '12')  , command=lambda:NEXT_Q(st_answer.get()))
+            option1.place(x = 60, y = 190)
+            option2 = Radiobutton(window_student, text=f'(b): {q[2]}', variable= st_answer, value= 'b',font=('Bell MT', '12')  , command=lambda:NEXT_Q(st_answer.get()))
+            option2.place(x = 60, y = 220)
+            option3 = Radiobutton(window_student, text=f'(c): {q[3]}', variable= st_answer, value= 'c',font=('Bell MT', '12')  , command=lambda:NEXT_Q(st_answer.get()))
+            option3.place(x = 60, y = 250)
+            option4 = Radiobutton(window_student, text=f'(d): {q[4]}', variable= st_answer, value= 'd',font=('Bell MT', '12')  , command=lambda:NEXT_Q(st_answer.get()))
+            option4.place(x = 60, y = 280)
+
+        except Exception:
+            text_st.destroy()
+            La = Label(window_student, text='End of Questions', font=('Agency FB', 26, 'bold'))
+            La.place(x = 150, y = 100)
+            RA = Label(
+                window_student,
+                text=f'No. of right answers: {right_answer}',
+                font=('Arial Unicode MS', '16')
+                )
+            RA.place(x = 150, y = 150)
+
+    # img2 = PhotoImage(file = 'img_3.png')
+    # img_2_l = Label(
+    #     window_student,
+    #     image=img2
+    #     )
+    # Place(x = 0, y =0)
+
+    Q_No = Label(
+        window_student,
+        text= 'Question '
+        )
+    Q_No.place(x = 50, y = 50)
 
     text_st = Text(
         window_student, 
         height= 4,
-        width=80
+        width=67,
+        font=('Cascadia Code', '13')
     )
     text_st.place(x = 50, y = 70)
-    file_student = open('questionlist.txt', 'r')
-    txt_st = file_student.readline()
-    q = txt_st.split("|-|")
-
-    text_st.insert(1.0, q[0])
-
-    option1 = Radiobutton(window_student, text=q[1], variable= st_answer, value= 1).place(x = 60, y = 150)
-    option2 = Radiobutton(window_student, text=q[2], variable= st_answer, value= 2).place(x = 60, y = 180)
-    option3 = Radiobutton(window_student, text=q[3], variable= st_answer, value= 3).place(x = 60, y = 210)
-    option4 = Radiobutton(window_student, text=q[4], variable= st_answer, value= 4).place(x = 60, y = 240)
-
-    # text_st.config(state=DISABLED)
-
+    
+    n = 0
+    nxt_qu(n)
 
     window_student.mainloop()
-
 
 
 
@@ -283,6 +352,7 @@ root = tkinter.Tk()
 
 root.title("Quiz")
 root.geometry("480x530")
+root.resizable(False, False)
 
 img_icon = PhotoImage(file = "quiz_icon.png")
 icon = Label(
@@ -327,7 +397,6 @@ text1 = Label(
     pady = 40
 )
 text1.pack()
-
 
 
 root.mainloop()
